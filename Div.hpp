@@ -18,6 +18,15 @@ class Div : public Base {
 		virtual std::string stringify() {
 			return "(" + val1->stringify() + "/" + val2->stringify() + ")";
 		}
-};
+		virtual int number_of_children() {return 2;}
+		virtual Base* get_child(int i) {
+			if(i == 0) {
+				return val1;
+			}
+			else {
+				return val2;
+			}
+		}
+};	
 
 #endif

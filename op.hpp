@@ -10,6 +10,8 @@ class Op : public Base {
         Op(double value) : Base() { this->value = value; }
         virtual double evaluate() { return value; }
         virtual std::string stringify() { return std::to_string(value); }
+	virtual int number_of_children() {return 0;}
+	virtual Base* get_child(int i) {return nullptr;}
 }; 
 
 #endif //__OP_HPP__
