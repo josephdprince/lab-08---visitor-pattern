@@ -4,33 +4,18 @@
 #include "gtest/gtest.h"
  
 #include "op.hpp"
-#include "NineOpMock.hpp"
-#include "ZeroOpMock.hpp"
-#include "NegativeOpMock.hpp"
 #include "Mult.hpp"
 #include "Div.hpp"
 #include "Add.hpp"
 #include "Pow.hpp"
 #include "Sub.hpp"
+#include "Rand.hpp"
 
 TEST(OpTest, OpEvaluateNonZero) {
     Op* test = new Op(8);
     EXPECT_DOUBLE_EQ(test->evaluate(), 8);
-}
-
-TEST(OpMockTest, OpEvaluatePos) {
-    NineOpMock* test = new NineOpMock();
-    EXPECT_DOUBLE_EQ(test->evaluate(), 9.2);
-}
-
-TEST(OpMockTest, OpEvaluateZero) {
-    ZeroOpMock* test = new ZeroOpMock();
-    EXPECT_DOUBLE_EQ(test->evaluate(), 0.0);
-}
-
-TEST(NegativeOpMock, OpEvaluateNeg) {
-    NegativeOpMock* test = new NegativeOpMock();
-    EXPECT_DOUBLE_EQ(test->evaluate(), -9);
+    EXPECT_EQ(test->number_of_children(), 0);
+    EXPECT_EQ(test->get_child(0), nullptr);
 }
 
 TEST(MultTest, MultEvaluateNonZero) {
@@ -64,6 +49,8 @@ TEST(DivTest, DivEvaluateNonZero) {
     Div* test = new Div(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 2);
     EXPECT_EQ(test->stringify(), "(6.000000/3.000000)");
+    EXPECT_EQ(test->number_of_children(), 2);
+    EXPECT_EQ(test->get_child(0)->evaluate(), 6);
 }
 
 TEST(DivTestNeg, DivEvaluatePosNeg) {
@@ -72,6 +59,9 @@ TEST(DivTestNeg, DivEvaluatePosNeg) {
     Div* test = new Div(val1, val2);
     EXPECT_FLOAT_EQ(test->evaluate(), -12.1);
     EXPECT_EQ(test->stringify(), "(-24.200000/2.000000)");
+    EXPECT_EQ(test->number_of_children(), 2);
+    EXPECT_EQ(test->get_child(1)->evaluate(), 2.0);
+
 }
 
 TEST(DivTestOp, DivEvaluateOpInput) {
@@ -81,6 +71,9 @@ TEST(DivTestOp, DivEvaluateOpInput) {
     Op* val3 = new Op(2.0);
     Div* op2 = new Div(op1, val3);
     EXPECT_FLOAT_EQ(op2->evaluate(), -2);
+    EXPECT_EQ(op2->number_of_children(), 2);
+    EXPECT_EQ(op2->get_child(0)->evaluate(), -4);
+
 }
 
 TEST(AddTest, AddTwoPosNums) {
@@ -90,6 +83,8 @@ TEST(AddTest, AddTwoPosNums) {
     Add* test = new Add(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 12);
     EXPECT_EQ(test->stringify(), "(8.000000+4.000000)");
+    EXPECT_EQ(test->number_of_children(), 2);
+    EXPECT_EQ(test->get_child(0)->evaluate(), 8);
 }
 
 TEST(AddTest, AddPosNegNum) {
@@ -99,6 +94,9 @@ TEST(AddTest, AddPosNegNum) {
     Add* test = new Add(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 5.4);
     EXPECT_EQ(test->stringify(), "(-4.300000+9.700000)");
+    EXPECT_EQ(test->number_of_children(), 2);
+    EXPECT_EQ(test->get_child(0)->evaluate(), -4.3);
+
 }
 
 TEST(AddTest, AddWithOperationChild) {
@@ -110,6 +108,8 @@ TEST(AddTest, AddWithOperationChild) {
     Add* test = new Add(val1, add1);
     EXPECT_DOUBLE_EQ(test->evaluate(), 15.8);
     EXPECT_EQ(test->stringify(), "(3.300000+(7.900000+4.600000))");
+    EXPECT_EQ(test->number_of_children(), 2);
+    EXPECT_EQ(test->get_child(1)->evaluate(), 12.5);
 }
 
 TEST(PowTest, TwoPosNums) {
