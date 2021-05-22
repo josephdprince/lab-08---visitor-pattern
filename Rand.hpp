@@ -11,12 +11,10 @@ class Rand : public Base {
         virtual double evaluate() { return value; }
         virtual std::string stringify() { return std::to_string(value); }
 	virtual int number_of_children() {
-		return 2;
+		return 0;
 	}
 	virtual Base* get_child() {
-		if(i == 0)
-			return val1;
-		return val2;
+		return nullptr;
 	}
 };
 
