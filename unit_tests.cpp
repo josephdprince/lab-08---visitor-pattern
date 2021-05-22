@@ -191,7 +191,7 @@ TEST(SubTest, SubOpChild) {
 TEST(RandTest, RandOp) {
     Rand* val1 = new Rand();
     EXPECT_DOUBLE_EQ(val1->number_of_children(), 0);
-    EXPECT_DOUBLE_EQ(val1->get_child(0), nullptr);
+    EXPECT_EQ(val1->get_child(0), nullptr);
 }
 
 int main(int argc, char **argv) {
