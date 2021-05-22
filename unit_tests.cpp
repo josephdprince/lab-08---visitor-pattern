@@ -23,23 +23,29 @@ TEST(MultTest, MultEvaluateNonZero) {
     Op* val2 = new Op(3);
     Mult* test = new Mult(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 6);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), 2);
     EXPECT_EQ(test->stringify(), "(2.000000*3.000000)");
 }
 
-TEST(MultTestNeg, MultEvaluatePosNeg) {
+TEST(MultTest, MultEvaluatePosNeg) {
     Op* val1 = new Op(-5.7);
     Op* val2 = new Op(3.2);
     Mult* test = new Mult(val1, val2);
     EXPECT_FLOAT_EQ(test->evaluate(), -18.24);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), -5.7); 
     EXPECT_EQ(test->stringify(), "(-5.700000*3.200000)");
 }
 
-TEST(MultTestOp, MultEvaluateOpInput) {
+TEST(MultTest, MultEvaluateOpInput) {
     Op* val1 = new Op(-4);
     Op* val2 = new Op(6);
     Mult* op1 = new Mult(val1, val2);
     Op* val3 = new Op(2.0);
     Mult* op2 = new Mult(op1, val3);
+    EXPECT_DOUBLE_EQ(op2->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(op2->get_child(0)->evaluate(), -24);
     EXPECT_FLOAT_EQ(op2->evaluate(), -48);
 }
 
@@ -117,6 +123,8 @@ TEST(PowTest, TwoPosNums) {
     Op* val2 = new Op(2.0);
 
     Pow* test = new Pow(val1, val2);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), 2.0);
     EXPECT_DOUBLE_EQ(test->evaluate(), 10.24);
     EXPECT_EQ(test->stringify(), "(3.200000**2.000000)");
 }
@@ -127,6 +135,8 @@ TEST(PowTest, NegExponent) {
     
     Pow* test = new Pow(val1, val2);
     EXPECT_FLOAT_EQ(test->evaluate(), 0.137174211);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), 2.7);
     EXPECT_EQ(test->stringify(), "(2.700000**-2.000000)");
 }
 
@@ -137,6 +147,8 @@ TEST(PowTest, PowOp) {
     Pow* pow = new Pow(val2, val3);
 
     Pow* test = new Pow(val1, pow);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), 4.0);
     EXPECT_DOUBLE_EQ(test->evaluate(), 16.0);
     EXPECT_EQ(test->stringify(), "(2.000000**(2.000000**2.000000))");
 }
@@ -147,6 +159,8 @@ TEST(SubTest, SubTwoPosNums) {
 
     Sub* test = new Sub(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 0.6);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), 4.3);
     EXPECT_EQ(test->stringify(), "(4.300000-3.700000)");
 }
 
@@ -155,6 +169,8 @@ TEST(SubTest, FirstNumLarger) {
     Op* val2 = new Op(4.3);
 
     Sub* test = new Sub(val1, val2);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), 4.3);
     EXPECT_DOUBLE_EQ(test->evaluate(), -0.6);
     EXPECT_EQ(test->stringify(), "(3.700000-4.300000)");
 }
@@ -166,8 +182,16 @@ TEST(SubTest, SubOpChild) {
     Sub* sub = new Sub(val2, val3);
 
     Sub* test = new Sub(val1, sub);
+    EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
+    EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), -1.63);
     EXPECT_DOUBLE_EQ(test->evaluate(), 5.42);
     EXPECT_EQ(test->stringify(), "(3.790000-(1.320000-2.950000))");
+}
+
+TEST(RandTest, RandOp) {
+    Rand* val1 = new Rand();
+    EXPECT_DOUBLE_EQ(val1->number_of_children(), 0);
+    EXPECT_DOUBLE_EQ(val1->get_child(0), nullptr);
 }
 
 int main(int argc, char **argv) {
