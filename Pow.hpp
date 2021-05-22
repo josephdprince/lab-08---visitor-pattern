@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include <cmath>
+#include "visitor.hpp"
 
 class Pow : public Base {
     private:
@@ -25,6 +26,15 @@ class Pow : public Base {
 			return val1;
 		return val2;
 	}
+
+	virtual void accept(Visitor* visitor, int index) {
+                if(index == 0)
+                        visitor->visit_pow_begin(this);
+                else if(index == 1)
+                        visitor->visit_pow_middle(this);
+                else
+                        visitor->visit_pow_end(this);
+        }
 };
 
 #endif
