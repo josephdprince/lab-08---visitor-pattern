@@ -2,6 +2,7 @@
 #define __DIV_HPP__
 
 #include "base.hpp"
+#include "visitor.hpp"
 
 class Div : public Base {
 	private:
@@ -26,6 +27,14 @@ class Div : public Base {
 			else {
 				return val2;
 			}
+		}
+		virtual void accept(Visitor* visitor, int index) {
+			if (index == 0)
+				visitor->visit_div_begin(this);
+			else if (index == 1)
+				visitor->visit_div_middle(this);
+			else 
+				visitor->visit_div_end(this);
 		}
 };	
 
