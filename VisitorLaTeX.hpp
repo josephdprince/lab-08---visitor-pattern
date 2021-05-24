@@ -5,6 +5,15 @@
 #include "iterator.hpp"
 #include <iostream>
 
+#include "op.hpp"
+#include "Rand.hpp"
+#include "Add.hpp"
+#include "Sub.hpp"
+#include "Mult.hpp"
+#include "Div.hpp"
+#include "Pow.hpp"
+
+
 class VisitorLaTeX : public Visitor {
     public:
 	virtual void visit_op(Op* node) {
@@ -52,11 +61,11 @@ class VisitorLaTeX : public Visitor {
 	}
 
         virtual void visit_div_begin(Div* node) {
-		std::cout << "{";
+		std::cout << "{\\frac";
 	}
 
         virtual void visit_div_middle(Div* node){
-		std::cout << "\\frac";
+		std::cout << "";
 	}
 
         virtual void visit_div_end(Div* node) {
@@ -77,11 +86,14 @@ class VisitorLaTeX : public Visitor {
 
 	std::string PrintLaTeX(Base* ptr) {
 		Iterator* it = new Iterator(ptr);
-        	while (!it->is_done()) {
-                	Base* curr = it->current_node()
+		std::cout << "$";
+        	while (it->is_done() == false) {
+                	Base* curr = it->current_node();
                 	curr->accept(this, it->current_index());
                 	it->next();
         	}
+		std::cout << "$" << std::endl;
 
 	}
+};
 #endif

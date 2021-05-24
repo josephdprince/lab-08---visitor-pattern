@@ -25,7 +25,7 @@ TEST(MultTest, MultEvaluateNonZero) {
     EXPECT_DOUBLE_EQ(test->evaluate(), 6);
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), 2);
-    EXPECT_EQ(test->stringify(), "(2.000000*3.000000)");
+    EXPECT_EQ(test->stringify(), "(2*3)");
 }
 
 TEST(MultTest, MultEvaluatePosNeg) {
@@ -35,7 +35,7 @@ TEST(MultTest, MultEvaluatePosNeg) {
     EXPECT_FLOAT_EQ(test->evaluate(), -18.24);
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), -5.7); 
-    EXPECT_EQ(test->stringify(), "(-5.700000*3.200000)");
+    EXPECT_EQ(test->stringify(), "(-5.7*3.2)");
 }
 
 TEST(MultTest, MultEvaluateOpInput) {
@@ -54,7 +54,7 @@ TEST(DivTest, DivEvaluateNonZero) {
     Op* val2 = new Op(3);
     Div* test = new Div(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 2);
-    EXPECT_EQ(test->stringify(), "(6.000000/3.000000)");
+    EXPECT_EQ(test->stringify(), "(6/3)");
     EXPECT_EQ(test->number_of_children(), 2);
     EXPECT_EQ(test->get_child(0)->evaluate(), 6);
 }
@@ -64,7 +64,7 @@ TEST(DivTestNeg, DivEvaluatePosNeg) {
     Op* val2 = new Op(2.0);
     Div* test = new Div(val1, val2);
     EXPECT_FLOAT_EQ(test->evaluate(), -12.1);
-    EXPECT_EQ(test->stringify(), "(-24.200000/2.000000)");
+    EXPECT_EQ(test->stringify(), "(-24.2/2)");
     EXPECT_EQ(test->number_of_children(), 2);
     EXPECT_EQ(test->get_child(1)->evaluate(), 2.0);
 
@@ -88,7 +88,7 @@ TEST(AddTest, AddTwoPosNums) {
 
     Add* test = new Add(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 12);
-    EXPECT_EQ(test->stringify(), "(8.000000+4.000000)");
+    EXPECT_EQ(test->stringify(), "(8+4)");
     EXPECT_EQ(test->number_of_children(), 2);
     EXPECT_EQ(test->get_child(0)->evaluate(), 8);
 }
@@ -99,7 +99,7 @@ TEST(AddTest, AddPosNegNum) {
 
     Add* test = new Add(val1, val2);
     EXPECT_DOUBLE_EQ(test->evaluate(), 5.4);
-    EXPECT_EQ(test->stringify(), "(-4.300000+9.700000)");
+    EXPECT_EQ(test->stringify(), "(-4.3+9.7)");
     EXPECT_EQ(test->number_of_children(), 2);
     EXPECT_EQ(test->get_child(0)->evaluate(), -4.3);
 
@@ -113,7 +113,7 @@ TEST(AddTest, AddWithOperationChild) {
 
     Add* test = new Add(val1, add1);
     EXPECT_DOUBLE_EQ(test->evaluate(), 15.8);
-    EXPECT_EQ(test->stringify(), "(3.300000+(7.900000+4.600000))");
+    EXPECT_EQ(test->stringify(), "(3.3+(7.9+4.6))");
     EXPECT_EQ(test->number_of_children(), 2);
     EXPECT_EQ(test->get_child(1)->evaluate(), 12.5);
 }
@@ -126,7 +126,7 @@ TEST(PowTest, TwoPosNums) {
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), 2.0);
     EXPECT_DOUBLE_EQ(test->evaluate(), 10.24);
-    EXPECT_EQ(test->stringify(), "(3.200000**2.000000)");
+    EXPECT_EQ(test->stringify(), "(3.2**2)");
 }
 
 TEST(PowTest, NegExponent) {
@@ -137,7 +137,7 @@ TEST(PowTest, NegExponent) {
     EXPECT_FLOAT_EQ(test->evaluate(), 0.137174211);
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), 2.7);
-    EXPECT_EQ(test->stringify(), "(2.700000**-2.000000)");
+    EXPECT_EQ(test->stringify(), "(2.7**-2)");
 }
 
 TEST(PowTest, PowOp) {
@@ -150,7 +150,7 @@ TEST(PowTest, PowOp) {
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), 4.0);
     EXPECT_DOUBLE_EQ(test->evaluate(), 16.0);
-    EXPECT_EQ(test->stringify(), "(2.000000**(2.000000**2.000000))");
+    EXPECT_EQ(test->stringify(), "(2**(2**2))");
 }
 
 TEST(SubTest, SubTwoPosNums) {
@@ -161,7 +161,7 @@ TEST(SubTest, SubTwoPosNums) {
     EXPECT_DOUBLE_EQ(test->evaluate(), 0.6);
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(0)->evaluate(), 4.3);
-    EXPECT_EQ(test->stringify(), "(4.300000-3.700000)");
+    EXPECT_EQ(test->stringify(), "(4.3-3.7)");
 }
 
 TEST(SubTest, FirstNumLarger) {
@@ -172,7 +172,7 @@ TEST(SubTest, FirstNumLarger) {
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), 4.3);
     EXPECT_DOUBLE_EQ(test->evaluate(), -0.6);
-    EXPECT_EQ(test->stringify(), "(3.700000-4.300000)");
+    EXPECT_EQ(test->stringify(), "(3.7-4.3)");
 }
 
 TEST(SubTest, SubOpChild) {
@@ -185,7 +185,7 @@ TEST(SubTest, SubOpChild) {
     EXPECT_DOUBLE_EQ(test->number_of_children(), 2);
     EXPECT_DOUBLE_EQ(test->get_child(1)->evaluate(), -1.63);
     EXPECT_DOUBLE_EQ(test->evaluate(), 5.42);
-    EXPECT_EQ(test->stringify(), "(3.790000-(1.320000-2.950000))");
+    EXPECT_EQ(test->stringify(), "(3.79-(1.32-2.95))");
 }
 
 TEST(RandTest, RandOp) {

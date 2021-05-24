@@ -3,7 +3,6 @@
 
 #include <string>
 #include "visitor.hpp"
-
 class Base {
     public:
         virtual ~Base() = default;
