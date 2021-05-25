@@ -101,6 +101,7 @@ class VisitorLaTeX : public Visitor {
                 	it->next();
         	}
 		equation += "$";
+		delete it;
 		return equation;
 	}
 };

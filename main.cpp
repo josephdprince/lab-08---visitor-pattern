@@ -74,5 +74,30 @@ int main() {
         VisitorLaTeX* vist_5 = new VisitorLaTeX();
         cout << vist_5->PrintLaTeX(div2) << endl;
 	
+	delete op1;
+	delete op2;
+	delete op3;
+	delete op4;
+	delete op5;
+	delete op6;
+	delete op7;
+	delete op8;
+	delete op9;
+	delete op10;
+	delete op11;
+	delete sub;
+	delete add;
+	delete pow;
+	delete mult;
+	delete div;
+	delete mult2;
+	delete pow2;
+	delete div2;
+	delete vist_1;
+	delete vist_2;
+	delete vist_3;
+	delete vist_4;
+	delete vist_5;
+
 	return 0;
 }
